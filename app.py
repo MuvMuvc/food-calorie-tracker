@@ -12,16 +12,16 @@ from datetime import datetime
 import food_calories
 
 MODEL_REPO = "XxxxxyKHML/food-calorie-resnet50"
-MODEL_FILENAME = "best_model_512.pth"
+MODEL_FILENAME = "resnet18.pth"
 NUM_CLASSES = 101
 MEAN = [0.485, 0.456, 0.406]
 STD = [0.229, 0.224, 0.225]
 
 
 def load_model():
-    model = models.resnet50()
+    model = models.resnet18()
     model.fc = torch.nn.Linear(model.fc.in_features, NUM_CLASSES)
-    local_path = "./best_model_512.pth"
+    local_path = "./resnet18.pth"
     if os.path.exists(local_path):
         model_path = local_path
     else:
@@ -41,8 +41,8 @@ except Exception:
 
 def preprocess(image):
     transform = transforms.Compose([
-        transforms.Resize(576),
-        transforms.CenterCrop(512),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize(MEAN, STD),
     ])
