@@ -1,0 +1,6 @@
+gradio
+torch
+torchvision
+pandas
+pillow
+huggingface_hub
