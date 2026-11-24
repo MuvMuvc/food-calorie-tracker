@@ -168,7 +168,7 @@ def add_record(food_name, custom_on, custom_name, custom_cal, grams, goal, histo
 
 def on_select(history, goal, evt: gr.SelectData):
     if evt is None:
-        return history, today_table(history), render_summary(history, goal)
+        return gr.skip(), gr.skip(), gr.skip()
     idx = evt.index
     if isinstance(idx, (tuple, list)):
         row = int(idx[0])
@@ -177,14 +177,14 @@ def on_select(history, goal, evt: gr.SelectData):
         row = int(idx)
         col = -1
     if col != 4:
-        return history, today_table(history), render_summary(history, goal)
+        return gr.skip(), gr.skip(), gr.skip()
     today = datetime.now().strftime("%Y-%m-%d")
     today_indices = [i for i, r in enumerate(history) if r["date"] == today]
     if 0 <= row < len(today_indices):
         del_idx = today_indices[row]
         new_history = [r for i, r in enumerate(history) if i != del_idx]
         return new_history, today_table(new_history), render_summary(new_history, goal)
-    return history, today_table(history), render_summary(history, goal)
+    return gr.skip(), gr.skip(), gr.skip()
 
 
 def is_valid_time(s):
@@ -291,9 +291,9 @@ CSS = """
     max-height: 320px !important;
 }
 .delete-icon {
-    opacity: 0.35;
+    opacity: 0.4;
     cursor: pointer;
-    transition: none !important;
+    font-size: 1.1em;
 }
 .delete-icon:hover {
     opacity: 1;
@@ -347,7 +347,7 @@ with gr.Blocks(title="Food Calorie Tracker") as demo:
                 value=today_table([]), label="Today's log",
                 wrap=True, interactive=True,
                 datatype=["str", "str", "number", "number", "html"],
-                column_widths=["15%", "50%", "15%", "15%", "5%"],
+                column_widths=["12%", "48%", "15%", "15%", "10%"],
             )
             clear_btn = gr.Button("Clear today", size="sm")
 
